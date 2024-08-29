@@ -1,3 +1,5 @@
 // import "./asyncSync";
 // import "./eventEmitter";
-import "./promise";
+// import "./promise";
+
+import "./http";
