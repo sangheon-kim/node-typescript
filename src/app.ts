@@ -1,10 +1,45 @@
 import express from "express";
-
+import path from "node:path";
+import morgan from "morgan";
 const app = express();
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
-});
+// /admin-api
+
+// function sampleMiddleware(message: string) {
+//   return (
+//     req: express.Request,
+//     res: express.Response,
+//     next: express.NextFunction
+//   ) => {
+//     console.log(message);
+
+//     next();
+//   };
+// }
+
+// app.use(sampleMiddleware("미들웨어 동작"));
+
+// view 파일들 모아놓는 위치 설정
+app.set("views", path.join(__dirname, "views"));
+// view engine 세팅
+app.set("view engine", "ejs");
+
+app.use(morgan("dev")); // 클로져
+app.use("/static", express.static(path.join(__dirname, "../public")));
+
+app.get(
+  "/",
+  (req, res, next) => {
+    console.log("홈 페이지 조회 요청 미들웨어");
+    next();
+  },
+  (req, res) => {
+    // res.sendFile(__dirname + "/views/index.html");
+    res.render("index", {
+      title: "홈",
+    });
+  }
+);
 
 app.post("/", (req, res) => {
   res.send("POST request to the homepage");
@@ -23,7 +58,23 @@ app.delete("/", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  res.send("상헌짱 GET request to the users");
+  res.render("users", {
+    title: "유저 목록",
+    users: [
+      {
+        name: "다영짱",
+        age: 27,
+      },
+      {
+        name: "현영짱",
+        age: 26,
+      },
+      {
+        name: "동준짱",
+        age: 27,
+      },
+    ],
+  });
 });
 
 app.post("/users", (req, res) => {
@@ -31,6 +82,7 @@ app.post("/users", (req, res) => {
 });
 
 app.put("/users", (req, res) => {
+  console.log("/users put");
   res.json({ message: "User updated" });
 });
 
@@ -42,9 +94,10 @@ app.delete("/users", (req, res) => {
   res.send("동준짱 DELETE request to the users");
 });
 
-app.get("/star.png", (req, res) => {
-  res.sendFile(__dirname + "/views/star.png");
-});
+// 이제 더이상 안녕 안써도돼 express.static과 함께니까
+// app.get("/star.png", (req, res) => {
+//   res.sendFile(__dirname + "/views/star.png");
+// });
 
 app.listen(4000, () => {
   console.log(`Server is running on port 4000`);
