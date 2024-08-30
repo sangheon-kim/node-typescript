@@ -11,31 +11,25 @@ import express from "express";
 
 const appRouter = express.Router();
 
-const BASE_PATH = "";
+const BASE_PATH = "/api";
 
-appRouter.get(`${BASE_PATH}`, (req, res) => {
-  res.render("index", {
-    title: "홈",
-  });
-});
-
-appRouter.get(`/api/${BASE_PATH}`, (req, res) => {
+appRouter.get(`/${BASE_PATH}`, (req, res) => {
   res.send("GET request to the homepage");
 });
 
-appRouter.post(`/api/${BASE_PATH}`, (req, res) => {
+appRouter.post(`/${BASE_PATH}`, (req, res) => {
   res.send(`POST request to the homepage`);
 });
 
-appRouter.put(`/api/${BASE_PATH}`, (req, res) => {
+appRouter.put(`/${BASE_PATH}`, (req, res) => {
   res.send(`PUT request to the homepage`);
 });
 
-appRouter.patch(`/api/${BASE_PATH}`, (req, res) => {
+appRouter.patch(`/${BASE_PATH}`, (req, res) => {
   res.send(`PATCH request to the homepage`);
 });
 
-appRouter.delete(`/api/${BASE_PATH}`, (req, res) => {
+appRouter.delete(`/${BASE_PATH}`, (req, res) => {
   res.send(`DELETE request to the homepage`);
 });
 
